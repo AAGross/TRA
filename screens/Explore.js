@@ -1,8 +1,8 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
-import { Attractions, Avatar, Hotels, Restaurants } from '../assets';
+import { Attractions, Avatar, Hotels, NotFound, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import { FontAwesome } from '@expo/vector-icons';
 import ItemCardContainer from '../components/ItemCardContainer';
@@ -11,6 +11,8 @@ const Explore = () => {
     const navigation = useNavigation();
 
     const [type, setType] = useState("restaurants")
+    const [isLoading, setIsLoading] = useState(false)
+    const [mainData, setMainData] = useState({})
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -50,50 +52,80 @@ const Explore = () => {
             </View>
 
             {/* menu */}
-            <ScrollView>
-                <View className=" flex-row items-center justify-between px-8 mt-8">
-                    <MenuContainer
-                        key={"hotel"}
-                        title="Hotels"
-                        imageSrc={Hotels}
-                        type={type}
-                        setType={setType}
-                    />
+            {isLoading ? <View className="flex-1 items-center justify-center">
+                <ActivityIndicator size="large" color="#1D2088" />
+            </View> :
+                <ScrollView>
+                    <View className=" flex-row items-center justify-between px-8 mt-8">
+                        <MenuContainer
+                            key={"hotel"}
+                            title="Hotels"
+                            imageSrc={Hotels}
+                            type={type}
+                            setType={setType}
+                        />
 
-                    <MenuContainer
-                        key={"attractions"}
-                        title="Attractions"
-                        imageSrc={Attractions}
-                        type={type}
-                        setType={setType}
-                    />
+                        <MenuContainer
+                            key={"attractions"}
+                            title="Attractions"
+                            imageSrc={Attractions}
+                            type={type}
+                            setType={setType}
+                        />
 
-                    <MenuContainer
-                        key={"restaurants"}
-                        title="Restaurants"
-                        imageSrc={Restaurants}
-                        type={type}
-                        setType={setType}
-                    />
+                        <MenuContainer
+                            key={"restaurants"}
+                            title="Restaurants"
+                            imageSrc={Restaurants}
+                            type={type}
+                            setType={setType}
+                        />
 
-                </View>
+                    </View>
 
-                <View>
-                    <View className="flex-row items-center justify-between px-4 mt-8">
-                        <Text className="text-[#1D2088] text-[24px] font-bold">Heroic Suggestions</Text>
-                        <TouchableOpacity className="flex-row items-center justify-center space-x-2">
-                            <Text className="text-[#1D2088] text-[20px] font-bold">
-                                Explore
-                            </Text>
-                        <FontAwesome name="long-arrow-right" size={20} color="#1D2088"/>
-                    </TouchableOpacity>
-                </View>
-                <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap">
-                    <ItemCardContainer key={"101"} imageSrc={"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"} title="Something" location="Doha" />
-                    <ItemCardContainer key={"102"} imageSrc={"https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg"} title="Sample" location="Qatar" />
-                </View>
-            </View>
-        </ScrollView>
+                    <View>
+                        <View className="flex-row items-center justify-between px-4 mt-8">
+                            <Text className="text-[#1D2088] text-[24px] font-bold">Heroic Suggestions</Text>
+                            <TouchableOpacity className="flex-row items-center justify-center space-x-2">
+                                <Text className="text-[#1D2088] text-[20px] font-bold">
+                                    Explore
+                                </Text>
+                                <FontAwesome name="long-arrow-right" size={20} color="#1D2088" />
+                            </TouchableOpacity>
+                        </View>
+                        <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap">
+                            {mainData?.length > 0 ? (
+                                <>
+                                    <ItemCardContainer
+                                        key={"101"}
+                                        imageSrc={"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"}
+                                        title="Something very loooong"
+                                        location="Doha"
+                                    />
+                                    <ItemCardContainer
+                                        key={"102"}
+                                        imageSrc={"https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg"}
+                                        title="Sample"
+                                        location="Qatar"
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <View className="w-full h-[400px] items-center space-y-4 justify-center">
+                                        <Image source={NotFound}
+                                            className="w-32 h-32 object-cover"
+                                        />
+                                        <Text className="text-[#C11B18] text-2xl font-semibold">
+                                    A Villain Was Here...
+                                </Text>
+                                    </View>
+                                </>
+                            )}
+                        </View>
+                    </View>
+                </ScrollView>
+            }
+
         </SafeAreaView >
     )
 }
