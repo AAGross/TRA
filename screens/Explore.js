@@ -1,11 +1,12 @@
 import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useNavigation } from '@react-navigation/native';
 import { Attractions, Avatar, Hotels, NotFound, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import { FontAwesome } from '@expo/vector-icons';
 import ItemCardContainer from '../components/ItemCardContainer';
+import { getPlaceData } from '../api';
 
 const Explore = () => {
     const navigation = useNavigation();
@@ -19,6 +20,17 @@ const Explore = () => {
             headerShown: false,
         });
     }, []);
+
+    useEffect(() => {
+        setIsLoading(true);
+        getPlaceData().then(data => {
+            setMainData(data);
+            setInterval(() => {
+                setIsLoading(false);
+            }, 2000)
+        })
+    }, [])
+
     return (
         <SafeAreaView className="flex-1 bg-[#F2DE02] relative">
             <View className="flex-row items-center justify-between mt-16 px-8">
@@ -96,18 +108,20 @@ const Explore = () => {
                         <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap">
                             {mainData?.length > 0 ? (
                                 <>
-                                    <ItemCardContainer
-                                        key={"101"}
-                                        imageSrc={"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"}
-                                        title="Something very loooong"
-                                        location="Doha"
-                                    />
-                                    <ItemCardContainer
-                                        key={"102"}
-                                        imageSrc={"https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg"}
-                                        title="Sample"
-                                        location="Qatar"
-                                    />
+                                    {mainData?.map((data, i) => (
+                                        <ItemCardContainer
+                                            key={i}
+                                            imageSrc={
+                                            data?.photo?.images?.medium?.url ?
+                                                data?.photo?.images?.medium?.url :
+                                                "https://64.media.tumblr.com/057e3d33a6e5b50f9b4f7b38e67a2980/tumblr_owlumesctj1vy2tgqo4_400.jpg"
+                                            }
+                                            title={data?.name}
+                                            location={data?.location_string}
+                                            data={data}
+                                        />
+                                    ))}
+
                                 </>
                             ) : (
                                 <>
@@ -116,8 +130,8 @@ const Explore = () => {
                                             className="w-32 h-32 object-cover"
                                         />
                                         <Text className="text-[#C11B18] text-2xl font-semibold">
-                                    A Villain Was Here...
-                                </Text>
+                                            A Villain Was Here...
+                                        </Text>
                                     </View>
                                 </>
                             )}
