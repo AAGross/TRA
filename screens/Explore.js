@@ -114,7 +114,7 @@ const Explore = () => {
                                             imageSrc={
                                             data?.photo?.images?.medium?.url ?
                                                 data?.photo?.images?.medium?.url :
-                                                "https://64.media.tumblr.com/057e3d33a6e5b50f9b4f7b38e67a2980/tumblr_owlumesctj1vy2tgqo4_400.jpg"
+                                                "https://cdnb.artstation.com/p/assets/images/images/014/881/967/large/wynter-johnston-asset.jpg"
                                             }
                                             title={data?.name}
                                             location={data?.location_string}
