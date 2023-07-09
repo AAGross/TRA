@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { FontAwesome5 } from '@expo/vector-icons'
+import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 
 const ItemScreen = ({ route }) => {
     const navigation = useNavigation()
@@ -57,7 +57,57 @@ const ItemScreen = ({ route }) => {
                     </View>
                 </View>
 
-                
+                <View className="mt-6">
+                    <Text className="text-[#1D2088] text-[24px] font-bold">
+                        {data?.name}
+                    </Text>
+                    <View className="flex-row items-center space-x-2 mt-2">
+                        <FontAwesome name="map-marker" size={25} color="#1D2088" />
+                        <Text className="text-[#1D2088] text-[20px] font-bold">
+                            {data?.location_string}
+                        </Text>
+                    </View>
+                </View>
+
+                <View className="mt-4 flex-row items-center justify-between">
+                    {data?.rating && (
+                        <View className=" flex-row items-center space-x-2">
+                            <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
+                                <FontAwesome name="star" size={24} color="#fff" />
+                            </View>
+                            <View>
+                                <Text className="text-[#1D2088]">{data?.rating}</Text>
+                                <Text className="text-[#1D2088]">Ratings</Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {data?.price_level && (
+                        <View className=" flex-row items-center space-x-2">
+                            <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
+                                <MaterialIcons name="attach-money" size={24} color="#fff" />
+                            </View>
+                            <View>
+                                <Text className="text-[#1D2088]">{data?.price_level}</Text>
+                                <Text className="text-[#1D2088]">Price Level</Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {data?.distance_string && (
+                        <View className=" flex-row items-center space-x-2">
+                            <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
+                                <FontAwesome5 name="map-signs" size={24} color="#fff" />
+                            </View>
+                            <View>
+                                <Text className="text-[#1D2088]">
+                                    {data?.distance_string}
+                                </Text>
+                            </View>
+                        </View>
+                    )}
+                </View>
+
             </ScrollView>
         </SafeAreaView>
     )
