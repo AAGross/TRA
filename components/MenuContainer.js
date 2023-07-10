@@ -3,7 +3,9 @@ import React from 'react'
 
 const MenuContainer = ({ title, imageSrc, type, setType }) => {
     return (
-        <TouchableOpacity className="item-center justify-center">
+        <TouchableOpacity className="item-center justify-center"
+        onPress={() => setType(title.toLowerCase())}
+        >
             <View className={'w-20 h-20 items-center justify-center'}>
                 <Image
                     source={imageSrc}

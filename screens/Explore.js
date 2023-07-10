@@ -14,6 +14,12 @@ const Explore = () => {
     const [type, setType] = useState("restaurants")
     const [isLoading, setIsLoading] = useState(false)
     const [mainData, setMainData] = useState({})
+    const [coordinates, setCoordinates] = useState({
+        bl_lat: null,
+        bl_lng: null,
+        tr_lat: null,
+        tr_lng: null
+    });
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -23,13 +29,13 @@ const Explore = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getPlaceData().then(data => {
+        getPlaceData(coordinates.bl_lat, coordinates.bl_lng, coordinates.tr_lat, coordinates.tr_lng, type).then(data => {
             setMainData(data);
             setInterval(() => {
                 setIsLoading(false);
             }, 2000)
         })
-    }, [])
+    }, [coordinates.bl_lat, coordinates.bl_lng, coordinates.tr_lat, coordinates.tr_lng, type])
 
     return (
         <SafeAreaView className="flex-1 bg-[#F2DE02] relative">
@@ -54,7 +60,12 @@ const Explore = () => {
                     fetchDetails={true}
                     onPress={(data, details = null) => {
                         // 'details' is provided when fetchDetails = true
-                        console.log(details?.geometry?.viewport);
+                        console.log(details?.geometry?.viewport); setCoordinates({
+                            bl_lat: details?.geometry?.viewport?.southwest?.lat,
+                            bl_lng: details?.geometry?.viewport?.southwest?.lng,
+                            tr_lat: details?.geometry?.viewport?.northeast?.lat,
+                            tr_lng: details?.geometry?.viewport?.northeast?.lng
+                        });
                     }}
                     query={{
                         key: 'AIzaSyBAv1P8z0Da7xFBWag8d1FPZg5h5wyybAg',
@@ -70,7 +81,7 @@ const Explore = () => {
                 <ScrollView>
                     <View className=" flex-row items-center justify-between px-8 mt-8">
                         <MenuContainer
-                            key={"hotel"}
+                            key={"hotels"}
                             title="Hotels"
                             imageSrc={Hotels}
                             type={type}
@@ -112,9 +123,9 @@ const Explore = () => {
                                         <ItemCardContainer
                                             key={i}
                                             imageSrc={
-                                            data?.photo?.images?.medium?.url ?
-                                                data?.photo?.images?.medium?.url :
-                                                "https://cdnb.artstation.com/p/assets/images/images/014/881/967/large/wynter-johnston-asset.jpg"
+                                                data?.photo?.images?.medium?.url ?
+                                                    data?.photo?.images?.medium?.url :
+                                                    "https://cdnb.artstation.com/p/assets/images/images/014/881/967/large/wynter-johnston-asset.jpg"
                                             }
                                             title={data?.name}
                                             location={data?.location_string}
