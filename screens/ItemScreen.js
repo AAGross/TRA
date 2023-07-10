@@ -6,7 +6,7 @@ import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 const ItemScreen = ({ route }) => {
     const navigation = useNavigation()
 
-    const data = route?.params?.param;
+const data = route?.params?.param
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
@@ -73,7 +73,7 @@ const ItemScreen = ({ route }) => {
                     {data?.rating && (
                         <View className=" flex-row items-center space-x-2">
                             <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
-                                <FontAwesome name="star" size={24} color="#fff" />
+                                <FontAwesome name="star" size={26} color="#fff" />
                             </View>
                             <View>
                                 <Text className="text-[#1D2088]">{data?.rating}</Text>
@@ -85,7 +85,7 @@ const ItemScreen = ({ route }) => {
                     {data?.price_level && (
                         <View className=" flex-row items-center space-x-2">
                             <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
-                                <MaterialIcons name="attach-money" size={24} color="#fff" />
+                                <MaterialIcons name="attach-money" size={28} color="#fff" />
                             </View>
                             <View>
                                 <Text className="text-[#1D2088]">{data?.price_level}</Text>
@@ -97,7 +97,7 @@ const ItemScreen = ({ route }) => {
                     {data?.distance_string && (
                         <View className=" flex-row items-center space-x-2">
                             <View className="w-12 h-12 rounded-2xl bg-[#C11B18] items-center justify-center shadow-md">
-                                <FontAwesome5 name="map-signs" size={24} color="#fff" />
+                                <FontAwesome5 name="car" size={26} color="#fff" />
                             </View>
                             <View>
                                 <Text className="text-[#1D2088]">
@@ -108,6 +108,39 @@ const ItemScreen = ({ route }) => {
                     )}
                 </View>
 
+                {data?.description && (
+                    <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#1D2088]">
+                        {data?.description}
+                    </Text>
+                )}
+
+                {data?.cuisine && (
+                    <View className="flex-row gap-2 items-center justify-start flex-wrap mt-4">
+                        {data?.cuisine.map((n) => (
+                            <TouchableOpacity
+                                key={n.key}
+                                className="px-2 py-1 rounded-md bg-[#C11B18]"
+                            >
+                                <Text className="text-[#fff]">{n.name}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                )}
+
+                <View className=" space-y-4 mt-8 bg-white rounded-2xl px-4 py-2">
+                    {data?.phone && (
+                        <View className="items-center flex-row space-x-6">
+                            <FontAwesome name="phone" size={24} color="#1D2088" />
+                            <Text className="text-lg text-[#1D2088]">{data?.phone}</Text>
+                        </View>
+                    )}
+                    {data?.address && (
+                        <View className="items-center flex-row space-x-6">
+                            <FontAwesome name="map-pin" size={24} color="#1D2088" />
+                            <Text className="text-lg text-[#1D2088]">{data?.address}</Text>
+                        </View>
+                    )}
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
