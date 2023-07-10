@@ -150,8 +150,7 @@ const Explore = () => {
                     </View>
                 </ScrollView>
             }
-
-        </SafeAreaView >
+        </SafeAreaView>
     )
 }
 
