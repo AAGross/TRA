@@ -29,30 +29,17 @@ const data = route?.params?.param
                         className="w-full h-72 object-cover rounded-2xl mt-6"
                     />
 
-                    <View className="absolute flex-row inset-x-0 top-7 justify-between px-6">
+                    <View className="absolute flex-row inset-x-0 top-7 justify-between px-2">
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Explore")}
-                            className="w-10 h-10 rounded-md items-center justify-center bg-white">
-                            <FontAwesome5 name="chevron-left" size={24} color="#1D2088" />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity className="w-10 h-10 rounded-md items-center justify-center bg-[#1D2088]">
-                            <FontAwesome5 name="heart" size={24} color="#fff" />
+                            className="w-12 h-12 rounded-md items-center justify-center bg-white">
+                            <FontAwesome5 name="chevron-left" size={34} color="#1D2088" />
                         </TouchableOpacity>
                     </View>
 
-                    <View className="absolute flex-row inset-x-0 bottom-5 justify-between px-6">
-                        <View className="flex-row space-x-2 items-center">
-                            <Text className="text-[12px] font-bold text-white">
-                                {data?.price_level}
-                            </Text>
-                            <Text className="text-[32px] font-bold text-white">
-                                {data?.price}
-                            </Text>
-                        </View>
-
+                    <View className="absolute flex-row bottom-2 px-2">
                         <View className="px-2 py-1 rounded-md bg-white">
-                            <Text className="text-[#1D2088] mt-2">{data?.open_now_text}</Text>
+                            <Text className="text-[#1D2088]">{data?.open_now_text}</Text>
                         </View>
                     </View>
                 </View>

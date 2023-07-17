@@ -2,9 +2,12 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
 const MenuContainer = ({ title, imageSrc, type, setType }) => {
+    const handlePress = () => {
+      setType(title.toLowerCase());
+    };
     return (
         <TouchableOpacity className="item-center justify-center"
-        onPress={() => setType(title.toLowerCase())}
+        onPress={handlePress}
         >
             <View className={'w-20 h-20 items-center justify-center'}>
                 <Image

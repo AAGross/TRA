@@ -13,7 +13,7 @@ const Explore = () => {
 
     const [type, setType] = useState("restaurants")
     const [isLoading, setIsLoading] = useState(false)
-    const [mainData, setMainData] = useState({})
+    const [mainData, setMainData] = useState([])
     const [coordinates, setCoordinates] = useState({
         bl_lat: null,
         bl_lng: null,
@@ -29,12 +29,17 @@ const Explore = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getPlaceData(coordinates.bl_lat, coordinates.bl_lng, coordinates.tr_lat, coordinates.tr_lng, type).then(data => {
-            setMainData(data);
-            setInterval(() => {
-                setIsLoading(false);
-            }, 2000)
-        })
+        getPlaceData(coordinates.bl_lat, coordinates.bl_lng, coordinates.tr_lat, coordinates.tr_lng, type)
+            .then(data => {
+                if (data && data.length > 0) {
+                    setMainData(data);
+                } else {
+                    console.log('No results found for this type');
+                }
+                setInterval(() => {
+                    setIsLoading(false);
+                }, 2000)
+            })
     }, [coordinates.bl_lat, coordinates.bl_lng, coordinates.tr_lat, coordinates.tr_lng, type])
 
     return (
@@ -58,14 +63,17 @@ const Explore = () => {
                     GooglePlacesDetailsQuery={{ fields: "geometry" }}
                     placeholder='Search'
                     fetchDetails={true}
-                    onPress={(data, details = null) => {
+                    onPress={(_data, details = null) => {
                         // 'details' is provided when fetchDetails = true
-                        console.log(details?.geometry?.viewport); setCoordinates({
-                            bl_lat: details?.geometry?.viewport?.southwest?.lat,
-                            bl_lng: details?.geometry?.viewport?.southwest?.lng,
-                            tr_lat: details?.geometry?.viewport?.northeast?.lat,
-                            tr_lng: details?.geometry?.viewport?.northeast?.lng
-                        });
+                        console.log(details?.geometry?.viewport);
+                        if (details) {
+                            setCoordinates({
+                                bl_lat: details?.geometry?.viewport?.southwest?.lat,
+                                bl_lng: details?.geometry?.viewport?.southwest?.lng,
+                                tr_lat: details?.geometry?.viewport?.northeast?.lat,
+                                tr_lng: details?.geometry?.viewport?.northeast?.lng
+                            });
+                        }
                     }}
                     query={{
                         key: 'AIzaSyBAv1P8z0Da7xFBWag8d1FPZg5h5wyybAg',
@@ -75,9 +83,11 @@ const Explore = () => {
             </View>
 
             {/* menu */}
-            {isLoading ? <View className="flex-1 items-center justify-center">
+            {isLoading ? (
+                <View className="flex-1 items-center justify-center">
                 <ActivityIndicator size="large" color="#1D2088" />
-            </View> :
+            </View>
+             ) : (
                 <ScrollView>
                     <View className=" flex-row items-center justify-between px-8 mt-8">
                         <MenuContainer
@@ -107,16 +117,10 @@ const Explore = () => {
                     </View>
 
                     <View>
-                        <View className="flex-row items-center justify-between px-4 mt-8">
-                            <Text className="text-[#1D2088] text-[24px] font-bold">Heroic Suggestions</Text>
-                            <TouchableOpacity className="flex-row items-center justify-center space-x-2">
-                                <Text className="text-[#1D2088] text-[20px] font-bold">
-                                    Explore
-                                </Text>
-                                <FontAwesome name="long-arrow-right" size={20} color="#1D2088" />
-                            </TouchableOpacity>
+                        <View className="flex-row items-center justify-center mt-8">
+                            <Text className="mt-4 text-[#1D2088] text-[24px] font-bold">Heroic Suggestions</Text>
                         </View>
-                        <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap">
+                        <View className="px-4 mt-6 flex-row items-center justify-evenly flex-wrap">
                             {mainData?.length > 0 ? (
                                 <>
                                     {mainData?.map((data, i) => (
@@ -149,6 +153,7 @@ const Explore = () => {
                         </View>
                     </View>
                 </ScrollView>
+             )
             }
         </SafeAreaView>
     )
