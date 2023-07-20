@@ -17,7 +17,7 @@ const HomeScreen = () => {
         <SafeAreaView className="bg-[#F2DE02] flex-1 relative">
             {/* section 1 */}
             <View className="px-6 mt-16 space-y-3">
-                <Text className="text-[#1D2088] text-[42px] font-extrabold text-center">PLUS ULTRA!!!</Text>
+                <Text className="text-[#1D2088] text-[42px] font-extrabold text-center">PLUS ULTRA!</Text>
                 <Text className="text-[#1D2088] text-[38px] font-bold text-center">Enjoy Your Trip, Hero</Text>
 
                 <Text className="text-[#1D2088] text-base font-medium text-center">
