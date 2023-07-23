@@ -48,7 +48,7 @@ const data = route?.params?.param
                     <Text className="text-[#1D2088] text-[24px] font-bold">
                         {data?.name}
                     </Text>
-                    <View className="flex-row items-center space-x-2 mt-2">
+                    <View className="flex-row items-center justify-center space-x-2 mt-2">
                         <FontAwesome name="map-marker" size={25} color="#1D2088" />
                         <Text className="text-[#1D2088] text-[20px] font-bold">
                             {data?.location_string}
