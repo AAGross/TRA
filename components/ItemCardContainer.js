@@ -8,7 +8,7 @@ const ItemCardContainer = ({ imageSrc, title, location, data }) => {
     return (
         <TouchableOpacity
             onPress={() => navigation.navigate("ItemScreen", { param: data })}
-            className="rounded-md border border-gray-300 space-y-2 px-6 py-2 shadow-md bg-white w-[182px] my-2">
+            className="rounded-md border border-gray-300 space-y-2 px-5 py-2 shadow-md bg-white w-[182px] my-2">
             <Image
                 source={{ uri: imageSrc }}
                 className="w-full h-40 rounded-md object-cover"
